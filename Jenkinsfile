@@ -1,9 +1,5 @@
 pipeline { 
   agent any 
-
-  tools {
-    nodejs 'NodeJS'
-  }
  
   stages { 
     stage('Checkout') { 
@@ -14,26 +10,26 @@ pipeline {
  
     stage('Install Dependencies') { 
       steps { 
-        bat 'npm install' 
+        sh 'npm install' 
       } 
     } 
  
     stage('Run Tests') { 
       steps { 
-        bat 'npm test || exit /b 0' // Allows pipeline to continue despite test failures 
+        sh 'npm test || true' // Allows pipeline to continue despite test failures 
       } 
     } 
  
     stage('Generate Coverage Report') { 
       steps { 
         // Ensure coverage report exists 
-        bat 'npm run coverage || exit /b 0' 
+        sh 'npm run coverage || true' 
       } 
     } 
  
     stage('NPM Audit (Security Scan)') { 
       steps { 
-        bat 'npm audit || true' // This will show known CVEs in the output 
+        sh 'npm audit || true' // This will show known CVEs in the output 
       } 
     } 
  
