@@ -18,6 +18,13 @@ pipeline {
       steps { 
         sh 'npm test || true' // Allows pipeline to continue despite test failures 
       } 
+      post{
+          success{
+            mail to: "ashleyotsyula1@gmail.com",
+            subject: "Test status",
+            body: "The tests were successful. The system will continue along the pipeline"
+          }
+        }
     } 
  
     stage('Generate Coverage Report') { 
@@ -31,7 +38,15 @@ pipeline {
       steps { 
         sh 'npm audit || true' // This will show known CVEs in the output 
       } 
+      post{
+          success{
+            mail to: "ashleyotsyula1@gmail.com",
+            subject: "NPM Audit status",
+            body: "The audit was successful. No further action needed"
+          }
+        }
     } 
+
  
   } 
 }
