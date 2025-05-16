@@ -47,13 +47,20 @@ pipeline {
       steps { 
         sh 'npm audit || true' // This will show known CVEs in the output 
       } 
-//      post{
-  //        success{
-    //        mail to: "ashleyotsyula1@gmail.com",
-      //      subject: "NPM Audit status",
-        //    body: "The audit was successful. No further action needed"
-          //}
-        //}
+      post{
+          success{
+            script{
+              def log = currentBuild.rawBuild.getLog(50).join('\n')
+              mail to: "ashleyotsyula1@gmail.com",
+              subject: "NPM Audit status",
+              body: """The audit was successful. No further action needed
+
+              Here is an overview of the logs:
+                ${log}
+              """
+            }
+          }
+        }
     } 
 
  
