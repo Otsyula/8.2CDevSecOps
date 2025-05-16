@@ -18,13 +18,22 @@ pipeline {
       steps { 
         sh 'npm test || true' // Allows pipeline to continue despite test failures 
       } 
-     // post{
-       //   success{
-         //   mail to: "ashleyotsyula1@gmail.com",
-           // subject: "Test status",
-            //body: "The tests were successful. The system will continue along the pipeline"
-         // }
-       // }
+      //Adding functionality to send an email with an update showing stage completion with logs (last 50 lines of logs)
+      post{
+          success{
+            script {
+            def log = currentBuild.rawBuild.getLog(50).join('\n')
+            mail to: "ashleyotsyula1@gmail.com",
+            subject: "Test status",
+            body: """The tests were successful. The system will continue along the pipeline.
+              
+              Here is an overview of the logs:
+                ${log}
+              """
+            }
+            
+          }
+        }
     } 
  
     stage('Generate Coverage Report') { 
