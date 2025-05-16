@@ -27,8 +27,8 @@ pipeline {
             subject: "Test status",
             body: """The tests were successful. The system will continue along the pipeline.
               
-              Here is an overview of the logs:
-                ${log}
+            Here is an overview of the logs:
+            ${log}
               """
             }
             
@@ -56,7 +56,7 @@ pipeline {
               body: """The audit was successful. No further action needed
 
               Here is an overview of the logs:
-                ${log}
+              ${log}
               """
             }
           }
